@@ -29,3 +29,4 @@ bt.Client.connect('127.0.0.1:11300').addCallback(function(conn) {
 Try it:
 
 $ node test/test.js
+  
