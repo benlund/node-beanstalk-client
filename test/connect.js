@@ -11,7 +11,7 @@
     }
     sys.puts('Producer connected');
     return conn.use('test', function() {
-      return conn.put(0, 0, 1, 'hiben', function(job_id) {
+      return conn.put(0, 0, 1, 'hiben', function(err, job_id) {
         return sys.puts('Producer sent job: ' + job_id);
       });
     });
@@ -22,11 +22,11 @@
       return sys.puts('Consumer connection error:', sys, inspect(err));
     } else {
       sys.puts('Consumer connected');
-      return conn.watch('test', function() {
-        return conn.reserve(function(job_id, data) {
+      return conn.watch('test', function(err) {
+        return conn.reserve(function(err, job_id, data) {
           sys.puts('Consumer got job: ' + job_id);
           sys.puts('  job data: ' + data);
-          return conn.destroy(job_id, function() {
+          return conn.destroy(job_id, function(err) {
             return sys.puts('Consumer destroyed job: ' + job_id);
           });
         });

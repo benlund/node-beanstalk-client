@@ -54,8 +54,8 @@ class Connection
       @try_handling_response()
 
 
-  close: () ->
-    @stream.close()
+  end: () ->
+    @stream.end()
 
 
   try_handling_response: () ->
@@ -67,9 +67,9 @@ class Connection
       if handler.complete
       	@finished_handling_response();
       	if handler.success
-          callback.apply(null, handler.args)
+          callback.call(null, false, handler.args...)
       	else
-      	  ##todo
+          callback.call(null, handler.args[0])
       else
       	handler.reset()
 

@@ -9,7 +9,7 @@ client.connect null, (err, conn) ->
 		sys.puts('Producer connected')
 
 		conn.use 'test', () ->
-      conn.put 0, 0, 1, 'hiben', (job_id) ->
+      conn.put 0, 0, 1, 'hiben', (err, job_id) ->
         sys.puts('Producer sent job: ' + job_id)
 
 
@@ -20,11 +20,11 @@ client.connect null, (err, conn) ->
   else
     sys.puts('Consumer connected')
 
-    conn.watch 'test', () ->
+    conn.watch 'test', (err) ->
 
-      conn.reserve (job_id, data) ->
+      conn.reserve (err, job_id, data) ->
         sys.puts('Consumer got job: ' + job_id)
         sys.puts('  job data: ' + data)
 
-        conn.destroy job_id, () ->
+        conn.destroy job_id, (err) ->
           sys.puts('Consumer destroyed job: ' + job_id)

@@ -1,0 +1,22 @@
+var sys = require('sys');
+var client = require('../lib/beanstalk_client').Client;
+
+client.connect(null, function(err, conn) {
+		
+		sys.puts('success connecting');
+		conn.use('test').addCallback(function() {
+		conn.watch('test').addCallback(function() {
+				  conn.put(0, 0, 1, 'hiben').addCallback(function(job_id) {
+							 sys.puts('put job: ' + job_id);
+
+							 conn.reserve().addCallback(function(job_id, data) {
+										     sys.puts('got job: ' + job_id);
+										     sys.puts('job data: ' + data);
+										     conn.destroy(job_id);
+										   });
+									   });
+					       });
+		  });
+}).addErrback(function() {
+		sys.puts('error connecting');
+});
