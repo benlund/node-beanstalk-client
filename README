@@ -29,3 +29,9 @@ Try it:
 
 $ node test/test.js
   
+
+===
+
+NPM:
+
+$ npm install beanstalk_client
