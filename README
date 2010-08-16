@@ -30,6 +30,8 @@ Try it:
 $ node test/test.js
   
 
+See also: http://github.com/benlund/node-beanstalk-worker
+
 ===
 
 NPM:
